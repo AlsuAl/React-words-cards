@@ -1,0 +1,44 @@
+@import "header.scss";
+
+.list {
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $bgcolor;
+  border-radius: $bordr;
+  max-width: 85vw;
+  margin: 60px;
+
+  .list-header-up {
+    text-align: center;
+    max-width: 90vw;
+  }
+  .list-header-down {
+    text-align: center;
+    padding-left: 8px;
+  }
+  tr {
+    width: 81vw;
+  }
+  th {
+    padding: 10px;
+    color: white;
+    font-size: 1.2rem;
+    width: 80vw;
+    text-align: center;
+  }
+
+  td {
+    padding: 9px;
+    padding-right: 45px;
+    text-align: center;
+    width: 80vw;
+    font-size: 1rem;
+  }
+  .list-words {
+    background-color: #ffff;
+    border-radius: $bordr;
+    padding: 10px;
+    margin: 10px;
+  }
+}

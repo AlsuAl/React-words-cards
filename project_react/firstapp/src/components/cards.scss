@@ -1,0 +1,56 @@
+@import "header.scss";
+.card {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 1fr;
+  padding: 25px;
+  margin: 20px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 85%;
+  .card-body {
+    border-radius: $bordr;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 10px;
+    margin: 10px;
+  }
+  .card-layout {
+    background-color: $bgcolor;
+    display: grid;
+    border-radius: $bordr;
+    padding: 35px;
+    gap: 30px;
+    margin: 20px;
+    min-width: 300px;
+    justify-content: center;
+  }
+  .button {
+    background: rgba(65, 65, 93, 0);
+    color: #000000e4;
+    border-radius: $bordr;
+    padding: 5px;
+    width: 5vw;
+    height: 5vh;
+    border: none;
+    text-align: center;
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+  }
+  .button:hover {
+    background-color: $bgcolor;
+    color: $fcolor;
+  }
+  .hidden {
+    display: none;
+  }
+}
+.arrow-buttons {
+  display: flex;
+  justify-content: center;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+}

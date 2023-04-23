@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "word": "rojo",
+    "transcription": "['roxo]",
+    "translation": "red",
+    "theme": "colors"
+  },
+  {
+    "id": "2",
+    "word": "verde",
+    "transcription": "['beɾðe]",
+    "translation": "green",
+    "theme": "colors"
+  },
+  {
+    "id": "3",
+    "word": "azul",
+    "transcription": "[a'sul]",
+    "translation": "blue",
+    "theme": "colors"
+  },
+  {
+    "id": "4",
+    "word": "negro",
+    "transcription": "['neɤɾo]",
+    "translation": "black",
+    "theme": "colors"
+  },
+  {
+    "id": "5",
+    "word": "blanco",
+    "transcription": "['blãnko]",
+    "translation": "white",
+    "theme": "colors"
+  }
+]
