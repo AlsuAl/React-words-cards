@@ -12,4 +12,4 @@ React application for  learning spanish words
 </div>
 
 ## Result:
-https://alsual.github.io/project-sassify/
+[https://alsual.github.io/project-sassify/](https://alsual.github.io/React-words-cards/)
