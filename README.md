@@ -1,6 +1,6 @@
 ## React-words-cards
 
-React application for  learning spanish words
+📕 React application for  learning spanish words
 
 
 ## Technologies:
