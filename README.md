@@ -1,9 +1,8 @@
 ## React-words-cards
 
-📕 React application for translate and learn spanish words
+📕 React application for translation and learning spanish words
 
 <img width="700" alt="screenshot" src="https://github.com/AlsuAl/AlsuAl/blob/main/assets/REactapp.png">
-<img width="700" alt="screenshot" src="https://github.com/AlsuAl/AlsuAl/blob/main/assets/reactapplist.png">
 
 https://github.com/AlsuAl/AlsuAl/blob/main/assets/REactapp.png
 
