@@ -4,8 +4,6 @@
 
 <img width="700" alt="screenshot" src="https://github.com/AlsuAl/AlsuAl/blob/main/assets/REactapp.png">
 
-https://github.com/AlsuAl/AlsuAl/blob/main/assets/REactapp.png
-
 
 ## Technologies:
 <div>
