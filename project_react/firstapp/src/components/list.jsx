@@ -18,7 +18,6 @@ function List(props) {
         </tr>
       </thead>
       <tbody className="list-words">
-        {/* исправленный map */}
         {data.map((card) => (
           <tr key={card.id}>
             <td>{card.word}</td>
@@ -26,17 +25,16 @@ function List(props) {
             <td>{card.translation}</td>
             <td className="list-buttons">
               <img
-                src={
-                  require("./images/edit-pencil-line-01-svgrepo-com.svg")
-                    .default
-                }
+                src={require("././images/sign-in-svgrepo-com.svg").default}
                 alt="edit"
                 className="edit"
+                title="edit"
               />
               <img
-                src={require("./images/trash-1-svgrepo-com.svg").default}
+                src={require("./images/sign-out-svgrepo-com.svg").default}
                 alt="delete"
                 className="delete"
+                title="delete"
               />
             </td>
           </tr>

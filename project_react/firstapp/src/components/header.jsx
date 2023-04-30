@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./header.scss";
 import { keyapi } from "./key";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+  Link,
+} from "react-router-dom";
 
 function Search(props) {
   const [inputValue, setInputValue] = useState("");
@@ -33,11 +40,38 @@ function Search(props) {
 
   return (
     <div className="search">
-      <div className="logo">
-        <img
-          src={require("./images/big-dictionary-svgrepo-com.svg").default}
-          alt="logo"
-        />
+      <div className="">
+        <nav className="menu">
+          <ul className="navigation">
+            <li>
+              <Link to="/">
+                <img
+                  src={require("./images/book-svgrepo-com.svg").default}
+                  alt="logo"
+                  title="home"
+                />
+              </Link>
+            </li>
+            <li>
+              <Link to="/cards">
+                <img
+                  src={require("./images/slider-svgrepo-com.svg").default}
+                  alt="cards"
+                  title="cards"
+                />
+              </Link>
+            </li>
+            <li>
+              <Link to="/list">
+                <img
+                  src={require("./images/drawer-svgrepo-com.svg").default}
+                  alt="list"
+                  title="list"
+                />
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
       <form onSubmit={handleSubmit} className="searchbody">
         <input
@@ -49,12 +83,15 @@ function Search(props) {
         />
         <button type="submit" className="button searchbutton">
           <img
-            src={require("./images/edit-svgrepo-com.svg").default}
+            src={
+              require("./images/arrow-right-rounded-svgrepo-com.svg").default
+            }
             alt="btn"
+            title="translate"
           />
         </button>
         <div className="result">
-          <p>Translation:{apiResult}</p>
+          <p>{apiResult}</p>
         </div>
       </form>
     </div>
