@@ -42,6 +42,10 @@
     background-color: $bgcolor;
     color: $fcolor;
   }
+  .button:focus {
+    background-color: $bgcolor;
+    color: $fcolor;
+  }
   .hidden {
     display: none;
   }

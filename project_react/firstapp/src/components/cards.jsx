@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./cards.scss";
 import data from "./data.js";
 
@@ -6,10 +6,15 @@ export default function Card(props) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const { id, word, transcription, translation } = data[currentCardIndex];
   const [isTranslated, setIsTranslated] = useState(false);
+  const [wordsLearned, setWordsLearned] = useState(0);
+
+  const translateButtonRef = useRef();
 
   function handleTranslate() {
     setIsTranslated(true);
+    setWordsLearned(wordsLearned + 1);
   }
+
   function handlePrev() {
     if (currentCardIndex > 0) {
       setCurrentCardIndex(currentCardIndex - 1);
@@ -26,6 +31,9 @@ export default function Card(props) {
       setIsTranslated(false);
     }
   }
+  useEffect(() => {
+    translateButtonRef.current.focus();
+  }, [currentCardIndex]);
   return (
     <div className="card">
       <div className="arrow-buttons">
@@ -41,6 +49,7 @@ export default function Card(props) {
           <button
             className={isTranslated ? "hidden" : "button buttonshow"}
             onClick={handleTranslate}
+            ref={translateButtonRef}
           >
             Translate
           </button>
@@ -54,6 +63,7 @@ export default function Card(props) {
           →
         </button>
       </div>
+      <p>Words learned: {wordsLearned}</p>
     </div>
   );
 }
