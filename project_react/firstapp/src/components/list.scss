@@ -41,4 +41,16 @@
     padding: 10px;
     margin: 10px;
   }
+  .error {
+    border: solid 2px red;
+  }
+  .btn {
+    border-radius: $bordr;
+    background-color: $bgcolor;
+    border: none;
+    padding: 15px;
+  }
+  .btn:hover {
+    color: $fcolor;
+  }
 }
