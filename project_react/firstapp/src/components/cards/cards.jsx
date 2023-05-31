@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./cards.scss";
-import data from "./data.js";
+import data from "../data.js";
 
 export default function Card(props) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);

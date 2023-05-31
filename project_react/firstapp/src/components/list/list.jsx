@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./list.scss";
-import data from "./data.js";
+import data from "../data.js";
 
 function List(props) {
   const { word, transcription, translation } = props;

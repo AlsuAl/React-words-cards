@@ -1,11 +1,11 @@
 import "./App.css";
-import "./components/cards.scss";
+import "./components/cards/cards.scss";
 import "./components/header.scss";
-import "./components/list.scss";
+import "./components/list/list.scss";
 import Search from "./components/header.jsx";
-import Card from "./components/cards.jsx";
-import List from "./components/list.jsx";
-import NoMatch from "./components/nomatch.jsx";
+import Card from "./components/cards/cards.jsx";
+import List from "./components/list/list.jsx";
+import NoMatch from "./components/nomatch/nomatch.jsx";
 import {
   BrowserRouter as Router,
   Routes,

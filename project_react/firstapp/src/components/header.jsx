@@ -8,7 +8,6 @@ import {
   Outlet,
   Link,
 } from "react-router-dom";
-
 function Search(props) {
   const [inputValue, setInputValue] = useState("");
   const [apiResult, setApiResult] = useState("");
@@ -37,7 +36,6 @@ function Search(props) {
       .then((response) => setApiResult(response.data.translatedText))
       .catch((err) => console.error(err));
   };
-
   return (
     <div className="search">
       <div className="">
