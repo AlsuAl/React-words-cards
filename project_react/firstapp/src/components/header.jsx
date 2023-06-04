@@ -16,13 +16,14 @@ function Search(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const encodedParams = new URLSearchParams();
-    encodedParams.append("source_language", "en");
-    encodedParams.append("target_language", "es");
+    encodedParams.append("source_language", "ru");
+    encodedParams.append("target_language", "en");
     encodedParams.append("text", inputValue);
 
-    const url = "https://text-translator2.p.rapidapi.com/translate";
-
     const options = {
+      async: true,
+      crossDomain: true,
+      url: "https://text-translator2.p.rapidapi.com/translate",
       method: "POST",
       headers: {
         "content-type": "application/x-www-form-urlencoded",

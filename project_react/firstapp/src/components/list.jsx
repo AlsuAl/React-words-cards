@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { observer } from "mobx-react";
+import { MobXProviderContext } from "mobx-react";
+import { WordsStore } from "./stores/WordsStore";
 import "./list.scss";
-import data from "./data.js";
+import AddWord from "./Addword";
 
-function List(props) {
-  const { word, transcription, translation } = props;
-  const [editedData, setEditedData] = useState(data);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [originalData, setOriginalData] = useState(null);
+const List = observer(() => {
+  const { wordsStore } = useContext(MobXProviderContext);
+  const { words } = wordsStore;
+
+  const [editedData, setEditedData] = useState([]);
+
+  useEffect(() => {
+    wordsStore.fetchWords();
+  }, [wordsStore]);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -15,125 +22,148 @@ function List(props) {
     setEditedData(updatedData);
   };
 
-  const saveChanges = (index) => {
-    const editedWord = editedData[index].word.trim();
+  const saveChanges = async (index) => {
+    const editedWord = editedData[index].english.trim();
     const editedTranscription = editedData[index].transcription.trim();
-    const editedTranslation = editedData[index].translation.trim();
+    const editedTranslation = editedData[index].russian.trim();
 
     if (!editedWord || !editedTranscription || !editedTranslation) {
       console.log("Error: Fields cannot be empty");
       return;
     }
 
-    console.log("Saved changes:", editedData[index]);
+    const updatedWord = {
+      id: editedData[index].id,
+      english: editedWord,
+      transcription: editedTranscription,
+      russian: editedTranslation,
+    };
 
-    setEditingIndex(null);
-    setOriginalData(null);
+    try {
+      await wordsStore.updateWord(index, updatedWord);
+      setEditedData([]);
+    } catch (error) {
+      console.log("Error updating word:", error);
+    }
   };
 
   const enterEditMode = (index) => {
-    setOriginalData({ ...editedData[index] });
-    setEditingIndex(index);
+    const dataCopy = [...words];
+    setEditedData(dataCopy);
   };
 
-  const cancelEdit = (index) => {
-    const updatedData = [...editedData];
-    updatedData[index] = { ...originalData };
-    setEditedData(updatedData);
-    setEditingIndex(null);
-    setOriginalData(null);
+  const cancelEdit = () => {
+    setEditedData([]);
+  };
+
+  const deleteWord = async (id) => {
+    try {
+      await wordsStore.deleteWord(id);
+    } catch (error) {
+      console.log("Error deleting word:", error);
+    }
   };
 
   return (
-    <table className="list">
-      <caption className="list-header-up">
-        <h2>Words List</h2>
-      </caption>
-      <thead className="list-header-down">
-        <tr>
-          <th>Words</th>
-          <th>Transcription</th>
-          <th>Translation</th>
-          <th>Edit/Delete</th>
-        </tr>
-      </thead>
-      <tbody className="list-words">
-        {editedData.map((card, index) => (
-          <tr key={card.id}>
-            <td>
-              {editingIndex === index ? (
-                <input
-                  type="text"
-                  name="word"
-                  value={card.word}
-                  onChange={(e) => handleInputChange(e, index)}
-                  className={!card.word.trim() ? "error" : ""}
-                />
-              ) : (
-                card.word
-              )}
-            </td>
-            <td>
-              {editingIndex === index ? (
-                <input
-                  type="text"
-                  name="transcription"
-                  value={card.transcription}
-                  onChange={(e) => handleInputChange(e, index)}
-                  className={!card.transcription.trim() ? "error" : ""}
-                />
-              ) : (
-                card.transcription
-              )}
-            </td>
-            <td>
-              {editingIndex === index ? (
-                <input
-                  type="text"
-                  name="translation"
-                  value={card.translation}
-                  onChange={(e) => handleInputChange(e, index)}
-                  className={!card.translation.trim() ? "error" : ""}
-                />
-              ) : (
-                card.translation
-              )}
-            </td>
-            <td className="list-buttons">
-              {editingIndex === index ? (
-                <>
-                  <button
-                    className="save btn"
-                    onClick={() => saveChanges(index)}
-                    disabled={
-                      !card.word.trim() ||
-                      !card.transcription.trim() ||
-                      !card.translation.trim()
-                    }
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="cancel btn"
-                    onClick={() => cancelEdit(index)}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="edit btn"
-                  onClick={() => enterEditMode(index)}
-                >
-                  Edit
-                </button>
-              )}
-            </td>
+    <div>
+      <table className="list">
+        <caption className="list-header-up">
+          <h2>Words List</h2>
+        </caption>
+        <thead className="list-header-down">
+          <tr>
+            <th>Words</th>
+            <th>Transcription</th>
+            <th>Translation</th>
+            <th>Edit/Delete</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="list-words">
+          {wordsStore.words.map((word, index) => (
+            <tr key={word.id}>
+              <td>
+                {editedData.length > 0 && editedData[index] ? (
+                  <input
+                    type="text"
+                    name="word"
+                    value={editedData[index].english}
+                    onChange={(e) => handleInputChange(e, index)}
+                    className={!editedData[index].english.trim() ? "error" : ""}
+                  />
+                ) : (
+                  word.english
+                )}
+              </td>
+              <td>
+                {editedData.length > 0 && editedData[index] ? (
+                  <input
+                    type="text"
+                    name="transcription"
+                    value={editedData[index].transcription}
+                    onChange={(e) => handleInputChange(e, index)}
+                    className={
+                      !editedData[index].transcription.trim() ? "error" : ""
+                    }
+                  />
+                ) : (
+                  word.transcription
+                )}
+              </td>
+              <td>
+                {editedData.length > 0 && editedData[index] ? (
+                  <input
+                    type="text"
+                    name="translation"
+                    value={editedData[index].russian}
+                    onChange={(e) => handleInputChange(e, index)}
+                    className={!editedData[index].russian.trim() ? "error" : ""}
+                  />
+                ) : (
+                  word.russian
+                )}
+              </td>
+              <td className="list-buttons">
+                {editedData.length > 0 && editedData[index] ? (
+                  <>
+                    <button
+                      className="save btn"
+                      onClick={() => saveChanges(index)}
+                      disabled={
+                        !editedData[index].english.trim() ||
+                        !editedData[index].transcription.trim() ||
+                        !editedData[index].russian.trim()
+                      }
+                    >
+                      Save
+                    </button>
+                    <button className="cancel btn" onClick={cancelEdit}>
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="edit btn"
+                      onClick={() => enterEditMode(index)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete btn"
+                      onClick={() => deleteWord(word.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <AddWord></AddWord>
+    </div>
   );
-}
+});
 
 export default List;

@@ -13,6 +13,7 @@ import {
   Outlet,
   Link,
 } from "react-router-dom";
+import { AppProvider } from "./contexts/AppContext";
 
 function App() {
   return (
@@ -43,7 +44,9 @@ function Home() {
 function Cards() {
   return (
     <div className="cards">
-      <Card></Card>
+      <AppProvider>
+        <Card />
+      </AppProvider>
     </div>
   );
 }
@@ -51,7 +54,9 @@ function Cards() {
 function WordList() {
   return (
     <div className="wordslist">
-      <List></List>
+      <AppProvider>
+        <List />
+      </AppProvider>
     </div>
   );
 }
