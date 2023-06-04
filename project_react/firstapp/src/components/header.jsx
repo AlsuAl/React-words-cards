@@ -19,9 +19,10 @@ function Search(props) {
     encodedParams.append("target_language", "es");
     encodedParams.append("text", inputValue);
 
-    const url = "https://text-translator2.p.rapidapi.com/translate";
-
     const options = {
+      async: true,
+      crossDomain: true,
+      url: "https://text-translator2.p.rapidapi.com/translate",
       method: "POST",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
