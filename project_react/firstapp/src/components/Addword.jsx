@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { observer } from "mobx-react";
 import { MobXProviderContext } from "mobx-react";
-import { WordsStore } from "./stores/WordsStore";
 
 const AddWord = observer(() => {
   const { wordsStore } = useContext(MobXProviderContext);

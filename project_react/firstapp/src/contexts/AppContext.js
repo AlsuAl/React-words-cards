@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import { WordsStore } from "../components/stores/WordsStore.jsx";
-
 export const AppContext = createContext(null);
 
 export const AppProvider = ({ children }) => {

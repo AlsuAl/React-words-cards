@@ -1,73 +1,111 @@
-import { action, makeAutoObservable } from "mobx";
-
-export class WordsStore {
-  words = [];
-  state = "pending";
+import { action, makeAutoObservable, observable, runInAction } from "mobx";
+class WordsStore {
+  @observable words = [];
+  @observable error = null;
+  isLoading = false;
 
   constructor() {
     makeAutoObservable(this);
-    this.fetchWords();
   }
 
-  fetchWords() {
-    this.state = "pending";
-    fetch("http://itgirlschool.justmakeit.ru/api/words")
-      .then((response) => response.json())
-      .then(
-        action("fetchSuccess", (words) => {
-          this.words = words;
-          this.state = "done";
-        })
-      )
-      .catch(
-        action("fetchError", (error) => {
-          console.error("Error fetching words:", error);
-          this.state = "error";
-        })
-      );
-  }
+  @action fetchData = () => {
+    return fetch("./api/words")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error ...");
+        }
+      })
+      .then((response) => {
+        this.words = response;
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.error = error;
+        this.isLoading = false;
+      });
+  };
 
-  addWord(word) {
-    fetch("http://itgirlschool.justmakeit.ru/api/words/add", {
+  @action addWord = (value) => {
+    this.isLoading = true;
+
+    const newWord = {
+      id: value.id,
+      english: value.english,
+      transcription: value.transcription,
+      russian: value.russian,
+      tags: value.tags,
+    };
+
+    return fetch("./api/words/add", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json: charset=utf-8",
       },
-      body: JSON.stringify(word),
+      body: JSON.stringify(newWord),
     })
       .then(() => {
-        this.fetchWords();
+        this.words.push(newWord);
+        this.isLoading = false;
       })
-      .catch((error) => {
-        console.error("Error adding word:", error);
-      });
-  }
+      .catch((error) => console.log(error.message));
+  };
 
-  updateWord(id, updatedWord) {
-    fetch(`http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
+  @action updateWord = (value) => {
+    this.isLoading = true;
+
+    const newWord = {
+      id: value.id,
+      english: value.english,
+      transcription: value.transcription,
+      russian: value.russian,
+      tags: value.tags,
+    };
+
+    return fetch(`api/words/${value.id}/update`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json: charset=utf-8",
       },
-      body: JSON.stringify(updatedWord),
+      body: JSON.stringify(newWord),
     })
-      .then(() => {
-        this.fetchWords();
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error ...");
+        }
       })
-      .catch((error) => {
-        console.error("Error updating word:", error);
-      });
-  }
+      .then(() => {
+        runInAction(() => this.fetchData());
+        this.isLoading = false;
+      })
+      .catch((error) => console.log(error.message));
+  };
 
-  deleteWord(id) {
-    fetch(`http://itgirlschool.justmakeit.ru/api/words/${id}/delete`, {
+  @action deleteWord = (id) => {
+    this.isLoading = true;
+
+    return fetch(`./api/words/${id}/delete`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json: charset=utf-8",
+      },
     })
-      .then(() => {
-        this.fetchWords();
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error ...");
+        }
       })
-      .catch((error) => {
-        console.error("Error deleting word:", error);
-      });
-  }
+      .then(() => {
+        runInAction(() => this.fetchData());
+        this.isLoading = false;
+      })
+      .catch((error) => console.log(error.message));
+  };
 }
+
+export default WordsStore;
